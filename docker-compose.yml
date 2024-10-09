@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  backend:
+    build: ./Flask/Backend
+    container_name: flask_backend
+    ports:
+      - "5000:5000"
+    networks:
+      - webnet
+
+  frontend:
+    build: ./Flask/Frontend
+    container_name: streamlit_frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+    networks:
+      - webnet
+    environment:
+      - BACKEND_URL=http://backend:5000  # Added backend URL
+
+networks:
+  webnet:
